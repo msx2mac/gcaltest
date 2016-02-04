@@ -94,6 +94,12 @@ console.log("TOKEN:" + authResult.access_token);
             }
         });
       }
+
+      function appendPre(message) {
+        var pre = document.getElementById('output');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+      }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     <div id="content"></div>
