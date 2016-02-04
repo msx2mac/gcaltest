@@ -55,21 +55,44 @@ console.log("TOKEN:" + authResult.access_token);
 
       // Load the API and make an API call.  Display the results on the screen.
       function makeApiCall() {
-        gapi.client.load('plus', 'v1', function() {
-          var request = gapi.client.plus.people.get({
-            'userId': 'me'
-          });
-          request.execute(function(resp) {
-            var heading = document.createElement('h4');
-            var image = document.createElement('img');
-            image.src = resp.image.url;
-            heading.appendChild(image);
-            heading.appendChild(document.createTextNode(resp.displayName));
-
-            document.getElementById('content').appendChild(heading);
-          });
-        });
+        gapi.client.load('calendar', 'v3', listUpcomingEvents);
       }
+
+      function listUpcomingEvents() {
+        var requestCal = gapi.client.calendar.calendarList.list();
+
+        requestCal.execute(function(respCal) {
+            for(var cal in respCal.items) {
+                appendPre('# ' + respCal.items[cal].id + ':' + respCal.items[cal].summary);
+
+                var requestEvent = gapi.client.calendar.events.list({
+                  'calendarId': respCal.items[cal].id,
+                  'timeMin': (new Date()).toISOString(),
+                  'showDeleted': false,
+                  'singleEvents': true,
+                  'maxResults': 10,
+                  'orderBy': 'startTime'
+                });
+
+                requestEvent.execute(function(respEvent) {
+                  var events = respEvent.items;
+
+                  if (events.length > 0) {
+                    for (i = 0; i < events.length; i++) {
+                      var event = events[i];
+                      var when = event.start.dateTime;
+                      if (!when) {
+                        when = event.start.date;
+                      }
+                      appendPre(event.summary + ' (' + when + ')')
+                    }
+                  } else {
+                    appendPre('No upcoming events found.');
+                  }
+                });
+
+            }
+        });
     </script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     <div id="content"></div>
