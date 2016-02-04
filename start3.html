@@ -23,7 +23,7 @@
       var apiKey = '5sTwD38lW_jHVi_PnNvL8cEh';
 
       // To enter one or more authentication scopes, refer to the documentation for the API.
-      var scopes = 'https://www.googleapis.com/auth/plus.me';
+      var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
 
       // Use a button to handle authentication the first time.
       function handleClientLoad() {
@@ -32,7 +32,7 @@
       }
 
       function checkAuth() {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
+        gapi.auth.authorize({client_id: clientId, scope: scopes.join(' '), immediate: true}, handleAuthResult);
       }
 
 
