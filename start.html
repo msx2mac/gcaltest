@@ -70,7 +70,7 @@
                 appendPre('# ' + respCal.items[i].id + ':' + respCal.items[i].summary);
 
                 var requestEvent = gapi.client.calendar.events.list({
-                  'calendarId': resp.items[i].id,
+                  'calendarId': respCal.items[i].id,
                   'timeMin': (new Date()).toISOString(),
                   'showDeleted': false,
                   'singleEvents': true,
