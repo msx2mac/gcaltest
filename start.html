@@ -65,9 +65,36 @@
       function listUpcomingEvents() {
         var requestCal = gapi.client.calendar.calendarList.list();
 
-        requestCal.execute(function(resp) {
-            for(var i in resp.items) {
-              appendPre('# ' + resp.items[i].id + ':' + resp.items[i].summary);
+        requestCal.execute(function(respCal) {
+            for(var i in respCal.items) {
+                appendPre('# ' + respCal.items[i].id + ':' + respCal.items[i].summary);
+
+                var requestEvent = gapi.client.calendar.events.list({
+                  'calendarId': resp.items[i].id,
+                  'timeMin': (new Date()).toISOString(),
+                  'showDeleted': false,
+                  'singleEvents': true,
+                  'maxResults': 10,
+                  'orderBy': 'startTime'
+                });
+
+                requestEvent.execute(function(respEvent) {
+                  var events = respEvent.items;
+
+                  if (events.length > 0) {
+                    for (i = 0; i < events.length; i++) {
+                      var event = events[i];
+                      var when = event.start.dateTime;
+                      if (!when) {
+                        when = event.start.date;
+                      }
+                      appendPre(event.summary + ' (' + when + ')')
+                    }
+                  } else {
+                    appendPre('No upcoming events found.');
+                  }
+                });
+
             }
         });
 
