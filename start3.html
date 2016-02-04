@@ -20,14 +20,14 @@
       // The provided key works for this sample only when run from
       // https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
       // To use in your own application, replace this API key with your own.
-      var apiKey = '5sTwD38lW_jHVi_PnNvL8cEh';
+      var apiKey = 'AIzaSyBaKrpJs_AThvS0GiWj9U_defDnDk-weK4';
 
       // To enter one or more authentication scopes, refer to the documentation for the API.
       var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
 
       // Use a button to handle authentication the first time.
       function handleClientLoad() {
-//        gapi.client.setApiKey(apiKey);
+        gapi.client.setApiKey(apiKey);
         window.setTimeout(checkAuth,1);
       }
 
