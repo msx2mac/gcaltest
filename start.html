@@ -66,11 +66,9 @@
         var requestCal = gapi.client.calendar.calendarList.list();
 
         requestCal.execute(function(respCal) {
-            for(var i in respCal.items) {
-                appendPre('# ' + respCal.items[i].id + ':' + respCal.items[i].summary);
-
+            for(var cal in respCal.items) {
                 var requestEvent = gapi.client.calendar.events.list({
-                  'calendarId': respCal.items[i].id,
+                  'calendarId': respCal.items[cal].id,
                   'timeMin': (new Date()).toISOString(),
                   'showDeleted': false,
                   'singleEvents': true,
@@ -79,6 +77,7 @@
                 });
 
                 requestEvent.execute(function(respEvent) {
+                  appendPre('# ' + respCal.items[cal].id + ':' + respCal.items[cal].summary);
                   var events = respEvent.items;
 
                   if (events.length > 0) {
