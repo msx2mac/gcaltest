@@ -39,6 +39,7 @@
       function handleAuthResult(authResult) {
         var authorizeButton = document.getElementById('authorize-button');
         if (authResult && !authResult.error) {
+console.log(authResult)
           authorizeButton.style.visibility = 'hidden';
           makeApiCall();
         } else {
