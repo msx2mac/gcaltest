@@ -67,6 +67,8 @@
 
         requestCal.execute(function(respCal) {
             for(var cal in respCal.items) {
+                appendPre('# ' + respCal.items[cal].id + ':' + respCal.items[cal].summary);
+
                 var requestEvent = gapi.client.calendar.events.list({
                   'calendarId': respCal.items[cal].id,
                   'timeMin': (new Date()).toISOString(),
@@ -77,7 +79,6 @@
                 });
 
                 requestEvent.execute(function(respEvent) {
-                  appendPre('# ' + respCal.items[cal].id + ':' + respCal.items[cal].summary);
                   var events = respEvent.items;
 
                   if (events.length > 0) {
